@@ -1,0 +1,94 @@
+{
+ "cells": [
+  {
+   "cell_type": "code",
+   "execution_count": null,
+   "metadata": {
+    "scrolled": true
+   },
+   "outputs": [
+    {
+     "name": "stderr",
+     "output_type": "stream",
+     "text": [
+      "Installing package into ‘/home/ruis/R/x86_64-pc-linux-gnu-library/3.4’\n",
+      "(as ‘lib’ is unspecified)\n",
+      "Installing package into ‘/home/ruis/R/x86_64-pc-linux-gnu-library/3.4’\n",
+      "(as ‘lib’ is unspecified)\n"
+     ]
+    }
+   ],
+   "source": [
+    "#Descripción estadistica de los campos de BD COMPLETA A USAR \n",
+    "install.packages(\"odbc\")\n",
+    "install.packages(\"dplyr\")\n",
+    "devtools::install_github(\"jjchern/meda\")\n",
+    "devtools::install_github(\"larmarange/labelled\")\n",
+    "library(odbc)\n",
+    "library(dplyr)\n",
+    "library(meda)"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": null,
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "con <- dbConnect(odbc(),\n",
+    "                 Driver = \"SQLServer\",\n",
+    "                 Server = \"IP\",\n",
+    "                 Database = \"BDDATA\",\n",
+    "                 UID = \"AWSOME USER\",\n",
+    "                 PWD = \"SUPER SECRET PASS\",\n",
+    "                 Port = 0000)"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": null,
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "## SCRIP QUE SE CORRE EN R SERVER REMOTO "
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": null,
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "####################### SEección de la BD ######## \n",
+    "\n",
+    "FAC_COMPLETA    <-tbl(con,\"fact_completa\")  # informacion completa\n",
+    "\n",
+    "\n",
+    "dim(FAC_COMPLETA) #31Mx41\n",
+    "Evento_des_CPT<-  FAC_COMPLETA%>%select(evento_des_pk)%>%summarise(n()) # 31,469,626\n",
+    "############################# Descripción de los Campos ###########################\n",
+    "\n",
+    "d(tbl_df(FAC_COMPLETA))\n",
+    "################################################################################### \n",
+    "cb(tbl_df(FAC_COMPLETA))"
+   ]
+  }
+ ],
+ "metadata": {
+  "kernelspec": {
+   "display_name": "R",
+   "language": "R",
+   "name": "ir"
+  },
+  "language_info": {
+   "codemirror_mode": "r",
+   "file_extension": ".r",
+   "mimetype": "text/x-r-source",
+   "name": "R",
+   "pygments_lexer": "r",
+   "version": "3.4.4"
+  }
+ },
+ "nbformat": 4,
+ "nbformat_minor": 2
+}
